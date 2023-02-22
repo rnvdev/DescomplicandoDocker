@@ -317,12 +317,28 @@ PostgreSQL:
 
 ```bash
 # docker run -d -p 5432:5432 --name pgsql1 --volumes-from dbdados \
-    -e POSTGRESQL_USER=docker -e POSTGRESQL_PASS=docker \
+    -e POSTGRESQL_USER=docker -e POSTGRESQL_PASSWORD=docker \
     -e POSTGRESQL_DB=docker kamui/postgresql
 
 # docker run -d -p 5433:5432 --name pgsql2 --volumes-from dbdados \
-   -e POSTGRESQL_USER=docker -e POSTGRESQL_PASS=docker \
+   -e POSTGRESQL_USER=docker -e POSTGRESQL_PASSWORD=docker \
    -e POSTGRESQL_DB=docker kamui/postgresql
+```
+
+Podemos tambem fazer uso da nova sintaxa do Docker e a imagem oficial do PostgreSQL:
+
+```bash
+# docker container run -d -p 5432:5432 --name pgsql1 \
+    --mount type=volume,src=dbdados,dst=/var/lib/postgresql/data \
+    -e POSTGRES_USER=docker \
+    -e POSTGRES_PASSWORD=docker 
+    -e POSTGRES_DB=docker postgres
+
+# docker container run -d -p 5433:5432 --name pgsql2 \
+    --mount type=volume,src=dbdados,dst=/var/lib/postgresql/data \
+    -e POSTGRES_USER=docker \
+    -e POSTGRES_PASSWORD=docker \
+    -e POSTGRES_DB=docker postgres
 ```
 
 Para verificar os dois *containers* com o PostgreSQL em execução,
